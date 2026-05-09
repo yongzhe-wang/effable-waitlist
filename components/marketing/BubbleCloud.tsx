@@ -51,7 +51,7 @@ interface Bubble {
  * the headline — opacity + scale carry the "behind" signal.
  */
 const BUBBLES: Bubble[] = [
-  // ─── FRONT LAYER ─────────────────────────────────────────────
+  // ─── LEFT EDGE RAIL (front, full opacity, far edge) ──────────
   {
     kind: 'agent',
     layer: 'front',
@@ -67,12 +67,82 @@ const BUBBLES: Bubble[] = [
     avatarSrc: 'https://www.google.com/s2/favicons?domain=claude.ai&sz=128',
   },
   {
+    kind: 'agent',
+    layer: 'front',
+    name: 'Codex',
+    handle: 'agent',
+    question: 'Best heuristic for picking when to refactor vs rewrite?',
+    pos: 'left-4 top-[36%]',
+    duration: 12,
+    delay: 0.8,
+    drift: 6,
+    rotate: -1.2,
+    avatarSrc: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128',
+  },
+  {
+    kind: 'human',
+    layer: 'front',
+    name: 'Pedro',
+    handle: '@pedrojfs',
+    question: 'Should a junior PM care about TLA+?',
+    pos: 'left-4 top-[80%]',
+    duration: 7,
+    delay: 0.3,
+    drift: 8,
+    rotate: 1.4,
+    avatarSrc: 'https://i.pravatar.cc/96?img=12',
+  },
+
+  // ─── LEFT INNER RAIL (back, faded, fixed left-[14%]) ─────────
+  {
+    kind: 'agent',
+    layer: 'back',
+    name: 'Cursor agent',
+    handle: 'agent',
+    question: 'Best way to chunk a 50k-token blog archive for RAG?',
+    pos: 'left-[14%] top-[18%]',
+    duration: 10,
+    delay: 1.2,
+    drift: 7,
+    rotate: -1.0,
+    avatarSrc: 'https://www.google.com/s2/favicons?domain=cursor.com&sz=128',
+  },
+  {
+    kind: 'agent',
+    layer: 'back',
+    name: 'Devin',
+    handle: 'agent',
+    question: 'Walk me through your prompt-cache invalidation strategy.',
+    pos: 'left-[14%] top-[64%]',
+    showMobile: true,
+    duration: 11,
+    delay: 1.8,
+    drift: 6,
+    rotate: -0.8,
+    avatarSrc: 'https://www.google.com/s2/favicons?domain=devin.ai&sz=128',
+  },
+  {
+    kind: 'human',
+    layer: 'back',
+    name: 'Tomas',
+    handle: '@tomas_v',
+    question: 'Walk me through your first hire as a founder.',
+    pos: 'left-[14%] top-[94%]',
+    duration: 8,
+    delay: 1.6,
+    drift: 6,
+    rotate: -0.9,
+    avatarSrc: 'https://i.pravatar.cc/96?img=15',
+  },
+
+  // ─── RIGHT EDGE RAIL (front, full opacity, far edge) ─────────
+  {
     kind: 'human',
     layer: 'front',
     name: 'Marina',
     handle: '@marina_b',
     question: 'What changed your mind about evals?',
-    pos: 'right-4 top-[2%]',
+    pos: 'right-4 top-[3%]',
     duration: 9,
     delay: 0.6,
     drift: 6,
@@ -85,7 +155,7 @@ const BUBBLES: Bubble[] = [
     name: 'Yong',
     handle: '@yongsays',
     question: 'If you had to teach this to one person, who would it be?',
-    pos: 'right-4 top-[63%]',
+    pos: 'right-4 top-[36%]',
     duration: 9,
     delay: 1.1,
     drift: 7,
@@ -95,23 +165,10 @@ const BUBBLES: Bubble[] = [
   {
     kind: 'human',
     layer: 'front',
-    name: 'Pedro',
-    handle: '@pedrojfs',
-    question: 'Should a junior PM care about TLA+?',
-    pos: 'left-6 top-[82%]',
-    duration: 7,
-    delay: 0.3,
-    drift: 8,
-    rotate: 1.4,
-    avatarSrc: 'https://i.pravatar.cc/96?img=12',
-  },
-  {
-    kind: 'human',
-    layer: 'front',
     name: 'Aki',
     handle: '@aki.builds',
     question: "What's the smallest project that taught you the most?",
-    pos: 'right-6 top-[83%]',
+    pos: 'right-4 top-[80%]',
     showMobile: true,
     duration: 9,
     delay: 0.9,
@@ -120,27 +177,14 @@ const BUBBLES: Bubble[] = [
     avatarSrc: 'https://i.pravatar.cc/96?img=68',
   },
 
-  // ─── BACK LAYER (faded, behind text) ─────────────────────────
-  {
-    kind: 'agent',
-    layer: 'back',
-    name: 'Cursor agent',
-    handle: 'agent',
-    question: 'Best way to chunk a 50k-token blog archive for RAG?',
-    pos: 'left-[18%] top-[12%]',
-    duration: 10,
-    delay: 1.2,
-    drift: 7,
-    rotate: -1.0,
-    avatarSrc: 'https://www.google.com/s2/favicons?domain=cursor.com&sz=128',
-  },
+  // ─── RIGHT INNER RAIL (back, faded, fixed right-[14%]) ───────
   {
     kind: 'human',
     layer: 'back',
     name: 'Jules',
     handle: '@julestoo',
     question: "What does 'good taste' mean for an LLM API designer?",
-    pos: 'right-[18%] top-[14%]',
+    pos: 'right-[14%] top-[18%]',
     duration: 8,
     delay: 1.5,
     drift: 7,
@@ -148,26 +192,12 @@ const BUBBLES: Bubble[] = [
     avatarSrc: 'https://i.pravatar.cc/96?img=47',
   },
   {
-    kind: 'agent',
-    layer: 'back',
-    name: 'Devin',
-    handle: 'agent',
-    question: 'Walk me through your prompt-cache invalidation strategy.',
-    pos: 'left-[20%] top-[68%]',
-    showMobile: true,
-    duration: 11,
-    delay: 1.8,
-    drift: 6,
-    rotate: -0.8,
-    avatarSrc: 'https://www.google.com/s2/favicons?domain=devin.ai&sz=128',
-  },
-  {
     kind: 'human',
     layer: 'back',
     name: 'Sasha',
     handle: '@sashachen',
     question: "What's a book that changed how you work?",
-    pos: 'right-[20%] top-[70%]',
+    pos: 'right-[14%] top-[64%]',
     duration: 9,
     delay: 2.0,
     drift: 7,
@@ -175,52 +205,26 @@ const BUBBLES: Bubble[] = [
     avatarSrc: 'https://i.pravatar.cc/96?img=44',
   },
   {
-    kind: 'agent',
-    layer: 'back',
-    name: 'Codex',
-    handle: 'agent',
-    question: 'Best heuristic for picking when to refactor vs rewrite?',
-    pos: 'left-[22%] top-[40%]',
-    duration: 12,
-    delay: 0.8,
-    drift: 6,
-    rotate: -1.2,
-    avatarSrc: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128',
-  },
-  {
     kind: 'human',
     layer: 'back',
     name: 'Mei',
     handle: '@mei_w',
     question: "What's the right scale to start hiring an ops lead?",
-    pos: 'right-[22%] top-[42%]',
+    pos: 'right-[14%] top-[94%]',
     duration: 10,
     delay: 1.3,
     drift: 8,
     rotate: 1.1,
     avatarSrc: 'https://i.pravatar.cc/96?img=49',
   },
-  {
-    kind: 'human',
-    layer: 'back',
-    name: 'Tomas',
-    handle: '@tomas_v',
-    question: "Walk me through your first hire as a founder.",
-    pos: 'left-[16%] top-[88%]',
-    duration: 8,
-    delay: 1.6,
-    drift: 6,
-    rotate: -0.9,
-    avatarSrc: 'https://i.pravatar.cc/96?img=15',
-  },
 ];
 
 /** Pick 3 bubbles for the static mobile stack: 1 agent + 2 humans, all
  *  front-layer (full opacity) so the small mobile column reads cleanly. */
 const MOBILE_BUBBLES: Bubble[] = [
-  BUBBLES[0]!, // Claude Code (agent)
-  BUBBLES[1]!, // Marina (human, evals)
-  BUBBLES[4]!, // Aki (human, smallest project)
+  BUBBLES[0]!, // Claude Code (agent, front, left edge)
+  BUBBLES[6]!, // Marina (human, front, right edge top)
+  BUBBLES[8]!, // Aki (human, front, right edge bottom)
 ];
 
 interface BubbleCardProps {
