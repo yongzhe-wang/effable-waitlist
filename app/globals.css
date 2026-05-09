@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─────────────────────────────────────────────────────────────────
+   * Effable design system — Direction A (Stark)
+   * Pure white + pure black + true red accent. Sharp 90° corners,
+   * heavy sans typography, single accent color.
+   * ───────────────────────────────────────────────────────────────── */
+
+  /* Universal palette — both marketing surfaces (landing/pricing/etc.)
+     AND app surfaces (dashboard/onboarding/login/etc.) use these. We no
+     longer maintain two parallel palettes.
+
+     Backwards-compat: the old --marketing-* token names are aliased to
+     the same values so existing references keep rendering correctly. */
+  --color-bg: #FFFFFF;
+  --color-fg: #000000;
+  --color-muted: #6B6B6B;
+  --color-border: #E5E5E5;
+  --color-surface: #FAFAFA;
+  --color-accent: #DC2626;
+  --color-accent-hover: #B91C1C;
+  --color-accent-fg: #FFFFFF;
+
+  /* Marketing aliases — point at the same unified palette so existing
+     `var(--marketing-bg)` / `var(--marketing-fg)` / etc. references in
+     the marketing components keep working without a global find-replace. */
+  --marketing-bg: var(--color-bg);
+  --marketing-surface: var(--color-surface);
+  --marketing-fg: var(--color-fg);
+  --marketing-fg-muted: var(--color-muted);
+  --marketing-border: var(--color-border);
+  --marketing-accent: var(--color-accent);
+  --marketing-accent-fg: var(--color-accent-fg);
+
+  /* Font families. Direction A drops the serif display face — heavy
+     Inter does both display and body. JetBrains Mono is reserved for
+     code / numerics / step indicators. */
+  --font-display: var(--ff-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--ff-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--ff-mono), ui-monospace, "SF Mono", "JetBrains Mono", "Fira Code", Menlo, monospace;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Default-deny rounding — Direction A is sharp 90° corners everywhere.
+   Components opt back in via explicit rounded-* utilities when needed
+   (e.g. profile avatar circles). */
+input, textarea, select, button {
+  border-radius: 0;
+}

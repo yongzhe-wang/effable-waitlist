@@ -1,0 +1,12 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Effable">
+  <!-- Black square favicon with the Direction A "EF" mark in white +
+       a single red square (the period) in the bottom-right.
+       Sized to read clearly at 16×16, 32×32, and Retina @2x scales. -->
+  <rect width="64" height="64" fill="#000000"/>
+  <!-- E -->
+  <path d="M8 14 H28 V21 H16 V29 H26 V36 H16 V43 H28 V50 H8 Z" fill="#FFFFFF"/>
+  <!-- F -->
+  <path d="M34 14 H54 V21 H42 V29 H52 V36 H42 V50 H34 Z" fill="#FFFFFF"/>
+  <!-- red square period accent (Direction A) -->
+  <rect x="54" y="44" width="6" height="6" fill="#DC2626"/>
+</svg>
