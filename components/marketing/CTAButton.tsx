@@ -62,6 +62,17 @@ export function CTAButton(props: CTAButtonProps) {
   const cls = `${BASE} ${variantClasses(variant)} ${sizeClasses(size)} ${props.className ?? ''}`.trim();
 
   if ('href' in props && props.href !== undefined) {
+    // Same-page anchor (#waitlist etc.) — render plain <a>, NOT Next Link
+    // (which triggers a router push and re-render) and NOT target="_blank"
+    // (which opens a new tab, the bug Jennifer hit). Native browser
+    // smooth-scroll handles the rest via globals.css scroll-behavior.
+    if (typeof props.href === 'string' && props.href.startsWith('#')) {
+      return (
+        <a href={props.href} className={cls}>
+          {props.children}
+        </a>
+      );
+    }
     if (props.external) {
       return (
         <a href={props.href} target="_blank" rel="noopener noreferrer" className={cls}>

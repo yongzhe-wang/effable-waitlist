@@ -51,6 +51,15 @@ html, body {
   font-family: var(--font-sans);
 }
 
+/* Smooth scroll for in-page anchor links (#waitlist etc.). Honors the
+   user's prefers-reduced-motion setting via the @media query below. */
+html {
+  scroll-behavior: smooth;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 * {
   box-sizing: border-box;
 }

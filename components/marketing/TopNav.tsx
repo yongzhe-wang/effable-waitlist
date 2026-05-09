@@ -13,7 +13,7 @@ export function TopNav() {
         <Link href="/" aria-label="Effable home" className="text-[var(--color-fg)]">
           <EffableLogo size={28} />
         </Link>
-        <CTAButton href="#waitlist" external size="md">
+        <CTAButton href="#waitlist" size="md">
           Join waitlist
         </CTAButton>
       </div>
