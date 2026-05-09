@@ -41,31 +41,37 @@ interface Bubble {
 }
 
 /**
- * 16-bubble two-layer cloud organized as two vertical rails (8 left + 8
- * right). FRONT bubbles hug the cloud edges; BACK bubbles sit one step
- * inward at 55% opacity / 88% scale.
+ * 10-bubble two-rail cloud — 5 left + 5 right, with VERTICAL GAPS large
+ * enough that adjacent bubbles never overlap each other. The previous
+ * 16-bubble pass packed 4 bubbles into the top and bottom zones at
+ * ~12% gaps, but bubble cards are ~140px tall and 12% of a 720px cloud
+ * is only ~86px — they were stacking on top of each other ("stuck").
  *
- * Vertical distribution avoids the 30-65% band where the H1 + form sit
- * — that's why the previous layout felt like the bubbles overlapped the
- * text. Now back bubbles cluster in the TOP zone (3-28%) and BOTTOM zone
- * (68-95%); only FRONT bubbles, which sit at the far viewport edges, are
- * allowed to render at middle vertical positions.
+ * Vertical positions: 2 / 20 / 44 / 68 / 88 percent. Adjacent gaps are
+ * 18% / 24% / 24% / 20% — i.e., 130-170px between bubble TOPS, all
+ * larger than the bubble height. No vertical overlap.
  *
- * Horizontal positions: front bubbles use `left-2 / left-4 / right-2 /
- * right-4` (8-16px from the cloud's max-w-[1700px] frame edge). Back
- * bubbles use `left-[10-14%] / right-[10-14%]`, which on a 1920px
- * viewport puts the bubble's far edge well clear of the H1's visual
- * extent (~600-1320px from viewport edge).
+ * Horizontal: front bubbles at far edge (`left-4 / right-4` ≈ 16px from
+ * the max-w-[1700px] frame edge — on a 1920px viewport, bubble-right
+ * sits at ~328px, well clear of the H1's ~600px left edge). Back
+ * bubbles one step inward (`left-[12-14%]`), still horizontally clear
+ * of the centered text column at all viewports the cloud renders on
+ * (lg: ≥1024px).
+ *
+ * Middle-band (44%) bubbles are FRONT-only and live at the far edge.
+ * They never approach the text column horizontally, so even though
+ * they're vertically next to the H1, the H1's visual extent leaves
+ * 200+ px of clear gutter.
  */
 const BUBBLES: Bubble[] = [
-  // ─── LEFT RAIL — TOP ZONE ──────────────────────────────────────
+  // ─── LEFT RAIL ─────────────────────────────────────────────────
   {
     kind: 'agent',
     layer: 'front',
     name: 'Claude Code',
     handle: 'agent',
     question: 'How would you debug a flaky CI without rerunning it?',
-    pos: 'left-4 top-[3%]',
+    pos: 'left-4 top-[2%]',
     showMobile: true,
     duration: 8,
     delay: 0,
@@ -79,7 +85,7 @@ const BUBBLES: Bubble[] = [
     name: 'Cursor agent',
     handle: 'agent',
     question: 'Best way to chunk a 50k-token blog archive for RAG?',
-    pos: 'left-[12%] top-[12%]',
+    pos: 'left-[14%] top-[20%]',
     duration: 10,
     delay: 1.2,
     drift: 7,
@@ -87,41 +93,25 @@ const BUBBLES: Bubble[] = [
     avatarSrc: 'https://www.google.com/s2/favicons?domain=cursor.com&sz=128',
   },
   {
-    kind: 'agent',
-    layer: 'back',
-    name: 'Codex',
-    handle: 'agent',
-    question: 'Best heuristic for picking when to refactor vs rewrite?',
-    pos: 'left-[8%] top-[22%]',
-    duration: 12,
-    delay: 0.8,
-    drift: 6,
-    rotate: -1.2,
-    avatarSrc: 'https://www.google.com/s2/favicons?domain=openai.com&sz=128',
-  },
-  {
     kind: 'human',
-    layer: 'back',
-    name: 'Iris',
-    handle: '@irisreads',
-    question: 'What book has surprisingly recent value?',
-    pos: 'left-[14%] top-[32%]',
-    duration: 9,
-    delay: 1.0,
-    drift: 6,
-    rotate: -0.7,
-    avatarSrc: 'https://i.pravatar.cc/96?img=24',
+    layer: 'front',
+    name: 'Pedro',
+    handle: '@pedrojfs',
+    question: 'Should a junior PM care about TLA+?',
+    pos: 'left-2 top-[44%]',
+    duration: 7,
+    delay: 0.3,
+    drift: 8,
+    rotate: 1.4,
+    avatarSrc: 'https://i.pravatar.cc/96?img=12',
   },
-
-  // ─── LEFT RAIL — BOTTOM ZONE ───────────────────────────────────
   {
     kind: 'agent',
     layer: 'back',
     name: 'Devin',
     handle: 'agent',
     question: 'Walk me through your prompt-cache invalidation strategy.',
-    pos: 'left-[10%] top-[66%]',
-    showMobile: true,
+    pos: 'left-[12%] top-[68%]',
     duration: 11,
     delay: 1.8,
     drift: 6,
@@ -130,52 +120,26 @@ const BUBBLES: Bubble[] = [
   },
   {
     kind: 'human',
-    layer: 'back',
+    layer: 'front',
     name: 'Tomas',
     handle: '@tomas_v',
     question: 'Walk me through your first hire as a founder.',
-    pos: 'left-[14%] top-[78%]',
+    pos: 'left-4 top-[88%]',
     duration: 8,
     delay: 1.6,
     drift: 6,
     rotate: -0.9,
     avatarSrc: 'https://i.pravatar.cc/96?img=15',
   },
-  {
-    kind: 'human',
-    layer: 'front',
-    name: 'Pedro',
-    handle: '@pedrojfs',
-    question: 'Should a junior PM care about TLA+?',
-    pos: 'left-4 top-[88%]',
-    duration: 7,
-    delay: 0.3,
-    drift: 8,
-    rotate: 1.4,
-    avatarSrc: 'https://i.pravatar.cc/96?img=12',
-  },
-  {
-    kind: 'human',
-    layer: 'back',
-    name: 'Naomi',
-    handle: '@naomiluv',
-    question: "What's a habit you wish you'd started earlier?",
-    pos: 'left-[8%] top-[94%]',
-    duration: 9,
-    delay: 1.4,
-    drift: 7,
-    rotate: -1.1,
-    avatarSrc: 'https://i.pravatar.cc/96?img=42',
-  },
 
-  // ─── RIGHT RAIL — TOP ZONE ─────────────────────────────────────
+  // ─── RIGHT RAIL ────────────────────────────────────────────────
   {
     kind: 'human',
     layer: 'front',
     name: 'Marina',
     handle: '@marina_b',
     question: 'What changed your mind about evals?',
-    pos: 'right-4 top-[3%]',
+    pos: 'right-4 top-[2%]',
     duration: 9,
     delay: 0.6,
     drift: 6,
@@ -188,7 +152,7 @@ const BUBBLES: Bubble[] = [
     name: 'Jules',
     handle: '@julestoo',
     question: "What does 'good taste' mean for an LLM API designer?",
-    pos: 'right-[12%] top-[12%]',
+    pos: 'right-[14%] top-[20%]',
     duration: 8,
     delay: 1.5,
     drift: 7,
@@ -197,57 +161,29 @@ const BUBBLES: Bubble[] = [
   },
   {
     kind: 'human',
-    layer: 'back',
-    name: 'Mei',
-    handle: '@mei_w',
-    question: "What's the right scale to start hiring an ops lead?",
-    pos: 'right-[8%] top-[22%]',
-    duration: 10,
-    delay: 1.3,
-    drift: 8,
-    rotate: 1.1,
-    avatarSrc: 'https://i.pravatar.cc/96?img=49',
-  },
-  {
-    kind: 'human',
-    layer: 'back',
-    name: 'Sang',
-    handle: '@sangz',
-    question: 'How do you handle Sunday-night dread?',
-    pos: 'right-[14%] top-[32%]',
+    layer: 'front',
+    name: 'Yong',
+    handle: '@yongsays',
+    question: 'If you had to teach this to one person, who would it be?',
+    pos: 'right-2 top-[44%]',
     duration: 9,
-    delay: 0.9,
-    drift: 6,
-    rotate: 0.8,
-    avatarSrc: 'https://i.pravatar.cc/96?img=51',
+    delay: 1.1,
+    drift: 7,
+    rotate: 1.3,
+    avatarSrc: 'https://i.pravatar.cc/96?img=56',
   },
-
-  // ─── RIGHT RAIL — BOTTOM ZONE ──────────────────────────────────
   {
     kind: 'human',
     layer: 'back',
     name: 'Sasha',
     handle: '@sashachen',
     question: "What's a book that changed how you work?",
-    pos: 'right-[10%] top-[66%]',
+    pos: 'right-[12%] top-[68%]',
     duration: 9,
     delay: 2.0,
     drift: 7,
     rotate: 1.0,
     avatarSrc: 'https://i.pravatar.cc/96?img=44',
-  },
-  {
-    kind: 'agent',
-    layer: 'back',
-    name: 'Cline',
-    handle: 'agent',
-    question: 'Walk me through your VS Code agent loop.',
-    pos: 'right-[14%] top-[78%]',
-    duration: 10,
-    delay: 1.7,
-    drift: 7,
-    rotate: 1.1,
-    avatarSrc: 'https://www.google.com/s2/favicons?domain=cline.bot&sz=128',
   },
   {
     kind: 'human',
@@ -263,27 +199,14 @@ const BUBBLES: Bubble[] = [
     rotate: 1.0,
     avatarSrc: 'https://i.pravatar.cc/96?img=68',
   },
-  {
-    kind: 'human',
-    layer: 'back',
-    name: 'Yong',
-    handle: '@yongsays',
-    question: 'If you had to teach this to one person, who would it be?',
-    pos: 'right-[8%] top-[94%]',
-    duration: 9,
-    delay: 1.1,
-    drift: 7,
-    rotate: 1.3,
-    avatarSrc: 'https://i.pravatar.cc/96?img=56',
-  },
 ];
 
 /** Pick 3 bubbles for the static mobile stack: 1 agent + 2 humans, all
  *  front-layer (full opacity) so the small mobile column reads cleanly. */
 const MOBILE_BUBBLES: Bubble[] = [
-  BUBBLES[0]!,  // Claude Code (agent, front)
-  BUBBLES[8]!,  // Marina (human, front)
-  BUBBLES[14]!, // Aki (human, front)
+  BUBBLES[0]!, // Claude Code (agent, front)
+  BUBBLES[5]!, // Marina (human, front)
+  BUBBLES[9]!, // Aki (human, front)
 ];
 
 interface BubbleCardProps {
