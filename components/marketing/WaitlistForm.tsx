@@ -4,19 +4,30 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { displayCountFromDb } from '@/lib/waitlist-count';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
+
+interface ApiResponse {
+  ok?: boolean;
+  error?: string;
+  count?: number | null;
+  deduped?: boolean;
+}
 
 /**
  * Email collection form for the pre-launch waitlist. Posts to
  * `POST /api/waitlist`; on duplicate (23505) the server treats it as a
  * successful re-signup so users never see "you're already on the list"
- * friction.
+ * friction. On success the API returns the live DB count, which we
+ * map through `displayCountFromDb` (= 286 base + real rows) to show
+ * the user their position on the list.
  */
 export function WaitlistForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState<string | null>(null);
+  const [position, setPosition] = useState<number | null>(null);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -32,11 +43,12 @@ export function WaitlistForm() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'landing' }),
       });
-      const json = (await res.json()) as { ok?: boolean; error?: string };
+      const json = (await res.json()) as ApiResponse;
       if (!res.ok) {
         setError(json.error ?? 'Something went wrong.');
         setStatus('error');
       } else {
+        setPosition(displayCountFromDb(json.count ?? null));
         setStatus('success');
       }
     } catch (err) {
@@ -52,7 +64,9 @@ export function WaitlistForm() {
           You&rsquo;re in
         </p>
         <h3 className="mt-2 text-2xl font-extrabold tracking-tight text-[var(--color-fg)]">
-          We&rsquo;ll be in touch.
+          {position
+            ? `You're #${position.toLocaleString()} on the waitlist.`
+            : "We'll be in touch."}
         </h3>
         <p className="mt-2 text-sm text-[var(--color-muted)]">
           Watch your inbox — we&rsquo;ll send your invite when access opens.

@@ -5,13 +5,23 @@ import { HowItWorksSteps } from '@/components/marketing/HowItWorksSteps';
 import { BuiltForBoth } from '@/components/marketing/BuiltForBoth';
 import { DesignPartners } from '@/components/marketing/DesignPartners';
 import { FAQ } from '@/components/marketing/FAQ';
+import { getDisplayedWaitlistCount } from '@/lib/waitlist-count';
 
-export default function HomePage() {
+// Render at request time so each visitor sees the latest signup count.
+// `force-dynamic` opts out of full-route static optimization (which
+// would otherwise cache the count at build time) without paying for
+// per-request fetching of the rest of the marketing surface — those
+// components are already pure and tree-shaken by Next.
+export const dynamic = 'force-dynamic';
+
+export default async function HomePage() {
+  const waitlistCount = await getDisplayedWaitlistCount();
+
   return (
     <div className="min-h-screen bg-[var(--color-bg)] font-sans text-[var(--color-fg)]">
       <TopNav />
       <main>
-        <Hero />
+        <Hero waitlistCount={waitlistCount} />
         <HowItWorksSteps />
         <BuiltForBoth />
         <section className="border-t border-[var(--color-border)] py-20 md:py-24">

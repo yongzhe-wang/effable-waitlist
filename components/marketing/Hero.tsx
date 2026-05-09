@@ -1,13 +1,17 @@
 import { WaitlistForm } from './WaitlistForm';
 import { BubbleCloud, BubbleStackMobile } from './BubbleCloud';
 
-/**
- * Hard-coded social proof number. Bump manually as signups grow — keeping
- * it static avoids leaking the live count from a public anon-key query.
- */
-const WAITLIST_COUNT = 286;
+interface Props {
+  /**
+   * Total visible waitlist count (= 286 base offset + real DB rows).
+   * Server-fetched at request time in app/page.tsx and passed in so
+   * each render reflects the live number — every real signup makes
+   * the next visitor's page show a higher count.
+   */
+  waitlistCount: number;
+}
 
-export function Hero() {
+export function Hero({ waitlistCount }: Props) {
   return (
     <section className="relative isolate overflow-hidden">
       <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-12 md:pb-28 md:pt-20">
@@ -32,7 +36,7 @@ export function Hero() {
           <div id="waitlist" className="mt-2 w-full max-w-md scroll-mt-20">
             <WaitlistForm />
             <p className="mt-3 font-mono text-[12px] uppercase tracking-widest text-[var(--color-muted)]">
-              {WAITLIST_COUNT.toLocaleString()} creators on the waitlist · effable me.
+              {waitlistCount.toLocaleString()} creators on the waitlist · effable me.
             </p>
           </div>
 
